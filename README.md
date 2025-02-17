@@ -45,40 +45,104 @@ UseContext usado en el carro de compras
 
 ---
 
-## Manejo de Autenticacion - Login
+## Integración Frontend - Backend
 
-1. AuthContext (context/AuthContext.jsx)
+1)Autenticación (AuthContext)
 
-- Maneja el estado de autenticación global
-- Almacena datos del usuario (id, email, token)
-- Proporciona funciones principales:
-  login: Autenticación con el backend
-  logout: Cierre de sesión
-  checkAuth: Verifica validez del token
-  isAuthenticated: Estado de autenticación
+Creamos un contexto de autenticación que maneja:
 
-2. Login Component (components/Login.jsx)
+Inicio de sesión
+Registro de usuarios
+Cierre de sesión
+Manejo del estado de autenticación
 
-- Formulario de inicio de sesión
-- Utiliza el AuthContext para manejar la autenticación
-- Maneja errores y estados de carga
-- Redirecciona tras login exitoso
+Funcionalidades principales:
 
-3. Integración con Backend
+Almacena información del usuario en localStorage
+Guarda token, email e ID de usuario
+Verifica si el usuario está autenticado
+Permite login y registro con manejo de errores
 
-- Conecta con tus endpoints:
-  POST /usuarios/login para autenticación
-  GET /usuarios/verify para verificación de token
+2. Login
 
-- Maneja el token JWT que expira en 1 hora
-- Almacena en localStorage:
-  token
-  userId
-  userEmail
+Modificamos el componente Login para:
 
-4. Seguridad
+Usar el contexto de autenticación
+Validar credenciales
+Redirigir después del inicio de sesión
+Manejar estados de carga y errores
 
-- Validación de token
-- Manejo de expiración de sesión
-- Almacenamiento seguro de credenciales
-- Protección de rutas
+Cambios clave:
+
+Eliminamos fetch manual
+Usamos método login del AuthContext
+Agregamos manejo de estados (loading, error)
+Redirigimos después de un login exitoso
+
+3. Register
+
+Actualizamos el componente Register para:
+
+Integrar con AuthContext
+Añadir rol_id por defecto
+Manejar registro de usuarios
+Validar contraseñas
+Manejar estados de carga y errores
+
+Modificaciones:
+
+Añadimos rol_id: 2 por defecto
+Usamos método register del AuthContext
+Implementamos validaciones de formulario
+
+4. NavBar
+
+Modificamos la navegación para mostrar:
+
+"Ingresa" cuando no hay sesión
+"Cerrar Sesión" cuando hay usuario autenticado
+Botón de cierre de sesión que redirige al inicio
+
+5. Carrito (CartContext)
+
+Implementamos un contexto de carrito con:
+
+Gestión de items en el carrito
+Persistencia en localStorage
+Métodos para agregar, actualizar y eliminar productos
+Método de checkout integrado con backend
+
+6. Carrito (Componente Cart)
+
+Actualizamos el carrito para:
+
+Requerir autenticación para realizar compra
+Enviar pedido al backend con token de autorización
+Manejar errores de procesamiento
+Limpiar carrito después de compra exitosa
+
+7. Integración General
+
+Configuramos rutas para proteger acceso
+Añadimos validación de autenticación en componentes sensibles
+Implementamos flujo completo de usuario:
+
+Registro
+Login
+Compra
+Logout
+
+8. Mejoras de Experiencia de Usuario
+
+Manejo de estados de carga
+Mensajes de error descriptivos
+Redirecciones automáticas
+Deshabilitación de controles durante procesos
+
+Consideraciones de Seguridad
+
+Uso de tokens Bearer
+Validación de autenticación en frontend y backend
+Protección de rutas sensibles
+
+Esta implementación proporciona un sistema de autenticación y compra completo, con manejo de estados, errores y una experiencia de usuario fluida.
